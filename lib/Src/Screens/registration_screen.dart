@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:news_app/Src/Components/text_field.dart';
 
 class RegistrationScreen extends StatelessWidget {
@@ -19,16 +17,16 @@ class RegistrationScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomTextFeild(
-              hintText: "hintText",
+              hintText: "email@example.com",
               controller: emailController,
               formkey: emailFormKey,
               obsecureText: false,
             ),
-            SizedBox(
+            const SizedBox(
               height: 7,
             ),
             CustomTextFeild(
-              hintText: "hintText",
+              hintText: "password",
               controller: passwordController,
               formkey: passwordFormKey,
               obsecureText: true,
