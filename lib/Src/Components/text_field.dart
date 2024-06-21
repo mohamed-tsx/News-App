@@ -16,6 +16,7 @@ class CustomTextFeild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         obscureText: obsecureText,
         key: formkey,
@@ -31,19 +32,20 @@ class CustomTextFeild extends StatelessWidget {
             borderSide: const BorderSide(
               color: Colors.white,
             ),
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(10),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(
               width: 3,
               color: Colors.grey,
             ),
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(10),
           ),
           fillColor: Colors.grey[100],
           filled: true,
           hintText: hintText,
           hintStyle: TextStyle(
+            fontWeight: FontWeight.w400,
             color: Colors.grey[500],
           ),
         ),
