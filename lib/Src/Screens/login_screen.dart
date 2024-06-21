@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:news_app/Src/Components/button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:news_app/Src/Components/text_field.dart';
+import 'package:news_app/Src/Screens/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -22,12 +23,12 @@ class LoginScreen extends StatelessWidget {
           password: passwordController.text.trim(),
         );
         // Navigate to the next screen after successful sign-in
-        // Navigator.pushReplacement(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => ReportScreen(),
-        //   ),
-        // );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+        );
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("Logged in Succefully"),
