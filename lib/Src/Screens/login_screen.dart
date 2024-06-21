@@ -3,10 +3,9 @@ import 'package:flutter/rendering.dart';
 import 'package:news_app/Src/Components/button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:news_app/Src/Components/text_field.dart';
-import 'package:news_app/Src/Screens/login_screen.dart';
 
-class RegistrationScreen extends StatelessWidget {
-  const RegistrationScreen({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,20 +17,20 @@ class RegistrationScreen extends StatelessWidget {
     Future<void> signInWithEmailAndPassword() async {
       try {
         print("Trying");
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim(),
         );
         // Navigate to the next screen after successful sign-in
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => LoginScreen(),
-          ),
-        );
+        // Navigator.pushReplacement(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => ReportScreen(),
+        //   ),
+        // );
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Registared Succefully"),
+            content: Text("Logged in Succefully"),
           ),
         );
       } catch (e) {
@@ -53,15 +52,9 @@ class RegistrationScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "Register your account now",
+              "Log in to your account now",
               style: TextStyle(
                 fontSize: 20,
-              ),
-            ),
-            const Text(
-              "In order to get the latest news!",
-              style: TextStyle(
-                fontSize: 17,
               ),
             ),
             const SizedBox(
