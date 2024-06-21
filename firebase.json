@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"my-news-app-92128","appId":"1:32321349429:android:e2a4653142f844f7d48e7c","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"my-news-app-92128","configurations":{"android":"1:32321349429:android:e2a4653142f844f7d48e7c","ios":"1:32321349429:ios:adabb9c166dbd210d48e7c"}}}}}}
