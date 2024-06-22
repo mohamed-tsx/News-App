@@ -1,71 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:news_app/Src/Screens/news_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   String userName = "Loading...";
+  int _selectedIndex = 0; // Index of the current tab
 
   @override
   void initState() {
     super.initState();
-    _loadUserData();
   }
 
-  Future<void> _loadUserData() async {
-    User? currentUser = _auth.currentUser;
-    if (currentUser != null) {
-      DocumentSnapshot userDoc =
-          await _firestore.collection('users').doc(currentUser.uid).get();
-      if (userDoc.exists) {
-        setState(() {
-          userName = userDoc['name'] ?? 'No name';
-        });
-      }
-    }
+  // Navigation items
+  static const List<Widget> _widgetOptions = <Widget>[
+    NewsScreen(), // Replace with your home screen widget
+    Text(
+        'Settings Screen Placeholder'), // Replace with your settings screen widget
+    Text('Settings Screen Placeholder'),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Home Screen'),
+      ),
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Welcome back!",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  Text(
-                    "$userName 👋",
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+        child: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.newspaper),
+            label: 'Settings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        selectedItemColor: Colors.blue,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }
