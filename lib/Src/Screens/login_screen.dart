@@ -4,6 +4,7 @@ import 'package:news_app/Src/Components/button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:news_app/Src/Components/text_field.dart';
 import 'package:news_app/Src/Screens/home_screen.dart';
+import 'package:news_app/Src/Screens/registration_completion_screen.dart';
 import 'package:news_app/Src/Screens/registration_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -60,9 +61,10 @@ class LoginScreen extends StatelessWidget {
       );
       return true; // User found
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("You're under investigation, please wait"),
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const RegistrationCompletionScreen(),
         ),
       );
       return false; // User not found
