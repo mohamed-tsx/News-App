@@ -86,7 +86,7 @@ class RegistrationScreen extends StatelessWidget {
               height: 8,
             ),
             CustomButton(
-              text: "Login",
+              text: "Register",
               onTap: () => registerWithEmailAndPassword(),
             ),
             Padding(
@@ -100,14 +100,14 @@ class RegistrationScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     child: const Text(
-                      "Log In",
+                      "Login",
                       style: TextStyle(color: Colors.blueAccent),
                     ),
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
+                          builder: (context) => LoginScreen(),
                         ),
                       );
                     },

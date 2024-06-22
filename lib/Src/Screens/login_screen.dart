@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/Src/Components/button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,46 +7,70 @@ import 'package:news_app/Src/Screens/home_screen.dart';
 import 'package:news_app/Src/Screens/registration_screen.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  final emailFormKey = GlobalKey<FormState>();
+  final passwordFormKey = GlobalKey<FormState>();
+
+  Future<void> logInWithEmailAndPassword(BuildContext context) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+      // Ensure user is authenticated before checking Firestore
+      if (userCredential.user != null) {
+        bool userExists =
+            await checkUserInDatabase(context, emailController.text.trim());
+        if (userExists) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Logged in Successfully"),
+            ),
+          );
+        } else {
+          return; // Stop further execution if user is not found
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Failed to sign in: ${e.toString()}"),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<bool> checkUserInDatabase(BuildContext context, String email) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+      );
+      return true; // User found
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("You're under investigation, please wait"),
+        ),
+      );
+      return false; // User not found
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    final emailFormKey = GlobalKey<FormState>();
-    final passwordFormKey = GlobalKey<FormState>();
-
-    Future<void> logInWithEmailAndPassword() async {
-      try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim(),
-        );
-        // Navigate to the next screen after successful sign-in
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-          ),
-        );
-        // const users = await
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Logged in Succefully"),
-          ),
-        );
-      } catch (e) {
-        // Show error message if sign-in fails
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Failed to sign in: ${e.toString()}"),
-            ),
-          );
-        }
-      }
-    }
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -79,8 +104,8 @@ class LoginScreen extends StatelessWidget {
               height: 8,
             ),
             CustomButton(
-              text: "Register",
-              onTap: () => logInWithEmailAndPassword(),
+              text: "Login",
+              onTap: () => logInWithEmailAndPassword(context),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
