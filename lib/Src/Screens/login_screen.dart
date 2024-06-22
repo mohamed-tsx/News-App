@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:news_app/Src/Components/button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:news_app/Src/Components/text_field.dart';
 import 'package:news_app/Src/Screens/home_screen.dart';
+import 'package:news_app/Src/Screens/registration_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -15,9 +15,8 @@ class LoginScreen extends StatelessWidget {
     final emailFormKey = GlobalKey<FormState>();
     final passwordFormKey = GlobalKey<FormState>();
 
-    Future<void> signInWithEmailAndPassword() async {
+    Future<void> logInWithEmailAndPassword() async {
       try {
-        print("Trying");
         await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim(),
@@ -26,17 +25,17 @@ class LoginScreen extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => HomeScreen(),
+            builder: (context) => const HomeScreen(),
           ),
         );
+        // const users = await
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("Logged in Succefully"),
           ),
         );
       } catch (e) {
         // Show error message if sign-in fails
-        print("Failed to sign in: $e");
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -81,8 +80,34 @@ class LoginScreen extends StatelessWidget {
             ),
             CustomButton(
               text: "Register",
-              onTap: () => signInWithEmailAndPassword(),
-            )
+              onTap: () => logInWithEmailAndPassword(),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const Text("Don't have an Account?"),
+                  const SizedBox(
+                    width: 7,
+                  ),
+                  GestureDetector(
+                    child: const Text(
+                      "Register",
+                      style: TextStyle(color: Colors.blueAccent),
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RegistrationScreen(),
+                        ),
+                      );
+                    },
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),

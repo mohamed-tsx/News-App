@@ -15,7 +15,7 @@ class RegistrationScreen extends StatelessWidget {
     final emailFormKey = GlobalKey<FormState>();
     final passwordFormKey = GlobalKey<FormState>();
 
-    Future<void> signInWithEmailAndPassword() async {
+    Future<void> registerWithEmailAndPassword() async {
       try {
         print("Trying");
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -30,7 +30,7 @@ class RegistrationScreen extends StatelessWidget {
           ),
         );
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("Registared Succefully"),
           ),
         );
@@ -86,9 +86,35 @@ class RegistrationScreen extends StatelessWidget {
               height: 8,
             ),
             CustomButton(
-              text: "Register",
-              onTap: () => signInWithEmailAndPassword(),
-            )
+              text: "Login",
+              onTap: () => registerWithEmailAndPassword(),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const Text("Already Registered?"),
+                  const SizedBox(
+                    width: 7,
+                  ),
+                  GestureDetector(
+                    child: const Text(
+                      "Log In",
+                      style: TextStyle(color: Colors.blueAccent),
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                    },
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
