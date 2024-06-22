@@ -64,7 +64,7 @@ class LoginScreen extends StatelessWidget {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const RegistrationCompletionScreen(),
+          builder: (context) => RegistrationCompletionScreen(),
         ),
       );
       return false; // User not found
