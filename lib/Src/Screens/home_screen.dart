@@ -36,9 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Screen'),
-      ),
       body: SafeArea(
         child: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
