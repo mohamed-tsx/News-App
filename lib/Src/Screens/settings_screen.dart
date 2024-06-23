@@ -87,6 +87,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onTap: _updateName,
                 text: "Update name",
               ),
+              const SizedBox(height: 70),
+              CustomButton(
+                onTap: () {},
+                text: "Delete Account",
+              ),
+              s
             ],
           ),
         ),
