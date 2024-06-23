@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class NewsScreen extends StatefulWidget {
-  const NewsScreen({Key? key}) : super(key: key);
+  const NewsScreen({super.key});
 
   @override
   State<NewsScreen> createState() => _NewsScreenState();
@@ -42,7 +42,7 @@ class _NewsScreenState extends State<NewsScreen> {
 
       if (newsQuerySnapshot.docs.isNotEmpty) {
         newsArticles.clear(); // Clear previous data
-        newsQuerySnapshot.docs.forEach((doc) {
+        for (var doc in newsQuerySnapshot.docs) {
           String title = doc['title'];
           String content = doc['content'];
           Timestamp publicationDate = doc['publication_date'];
@@ -56,7 +56,7 @@ class _NewsScreenState extends State<NewsScreen> {
           setState(() {
             newsArticles.add(newsData);
           });
-        });
+        }
       } else {
         print('No news available');
       }
@@ -97,7 +97,7 @@ class _NewsScreenState extends State<NewsScreen> {
             ),
             Expanded(
               child: newsArticles.isEmpty
-                  ? Center(child: CircularProgressIndicator())
+                  ? const Center(child: CircularProgressIndicator())
                   : ListView.builder(
                       itemCount: newsArticles.length,
                       itemBuilder: (context, index) {
@@ -109,7 +109,7 @@ class _NewsScreenState extends State<NewsScreen> {
                             children: [
                               Text(
                                 article['title'],
-                              style: const TextStyle(
+                                style: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -118,7 +118,7 @@ class _NewsScreenState extends State<NewsScreen> {
                               // You can format publication date as needed
                               Text(
                                 article['publication_date'].toDate().toString(),
-                                style: TextStyle(color: Colors.grey),
+                                style: const TextStyle(color: Colors.grey),
                               ),
                             ],
                           ),
