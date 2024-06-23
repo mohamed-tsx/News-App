@@ -45,6 +45,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  Future<void> _updateName() async {
+    if (nameController.text.isNotEmpty) {
+      User? currentUser = _auth.currentUser;
+      if (currentUser != null) {
+        String newName = nameController.text.trim();
+        await _firestore.collection('users').doc(currentUser.uid).update({
+          'name': newName,
+        });
+        setState(() {
+          userName = newName;
+        });
+        nameController.clear();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Name updated successfully')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +76,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(height: 40),
               Text("Hi Guys 👋 it's $userName"),
               const SizedBox(height: 70),
+              CustomTextFeild(
+                hintText: "Change Your name",
+                controller: nameController,
+                formkey: nameFormKey,
+                obsecureText: false,
+              ),
+              const SizedBox(height: 10),
+              CustomButton(
+                onTap: _updateName,
+                text: "Update name",
+              ),
             ],
           ),
         ),
