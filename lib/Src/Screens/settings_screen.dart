@@ -64,6 +64,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  Future<void> _deleteAccount() async {
+    User? currentUser = _auth.currentUser;
+    if (currentUser != null) {
+      await _firestore.collection('users').doc(currentUser.uid).delete();
+      await currentUser.delete();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Account deleted successfully')),
+      );
+      Navigator.of(context).popUntil(
+          (route) => route.isFirst); // Navigate back to the home screen
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,10 +102,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const SizedBox(height: 70),
               CustomButton(
-                onTap: () {},
+                onTap: _deleteAccount,
                 text: "Delete Account",
               ),
-              s
             ],
           ),
         ),
