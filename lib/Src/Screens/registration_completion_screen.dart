@@ -12,7 +12,6 @@ class RegistrationCompletionScreen extends StatefulWidget {
   _RegistrationCompletionScreenState createState() =>
       _RegistrationCompletionScreenState();
 }
-
 class _RegistrationCompletionScreenState
     extends State<RegistrationCompletionScreen> {
   TextEditingController nameController = TextEditingController();
