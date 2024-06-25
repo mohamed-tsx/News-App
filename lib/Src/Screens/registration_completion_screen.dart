@@ -7,7 +7,6 @@ import 'package:news_app/Src/Components/text_field.dart';
 
 class RegistrationCompletionScreen extends StatefulWidget {
   const RegistrationCompletionScreen({super.key});
-
   @override
   _RegistrationCompletionScreenState createState() =>
       _RegistrationCompletionScreenState();
